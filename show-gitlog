@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# default
+find_path=../
+since=1.days.ago
+author=foostan
+
+# set args
+if [ -n "$1" ];then
+    find_path=$1
+fi
+if [ -n "$2" ];then
+    since=$2
+fi
+if [ -n "$3" ];then
+    author=$3
+fi
+
+curt_dir=`pwd`
+for git_dir in `find $find_path -name .git -print 2>/dev/null`
+do
+    cd `dirname $curt_dir/$git_dir`
+    base_dir=`pwd`
+    dirname=${base_dir##*/}
+    git_log=`git log --pretty=format:"%ad:%d:%s" --date=local --reverse --all --since=$since --author=$author 2>/dev/null`
+    if [ -n "$git_log" ];then
+        echo $dirname
+        echo "$git_log\n"
+    fi
+done
