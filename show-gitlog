@@ -22,7 +22,7 @@ do
     cd `dirname $curt_dir/$git_dir`
     base_dir=`pwd`
     dirname=${base_dir##*/}
-    git_log=`git log --pretty=format:"%ad:%d:%s" --date=local --reverse --all --since=$since --author="$author" 2>/dev/null`
+    git_log=`git log --pretty=format:"%h %ad:%d:%s" --date=local --reverse --all --since=$since --author="$author" 2>/dev/null`
     if [ -n "$git_log" ];then
         echo $dirname
         echo "$git_log\n"
